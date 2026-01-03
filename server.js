@@ -4,13 +4,13 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-// 🔁 PUT YOUR NGROK URL HERE (NO /generate at end)
-const COLAB_API = "https://unconsuming-monte-nippy.ngrok-free.dev";
+// 👇 IMPORTANT: this must match your CURRENT ngrok URL
+const COLAB_URL = "https://unconsuming-monte-nippy.ngrok-free.dev";
 
 app.post("/generate-image", async (req, res) => {
   try {
     const response = await axios.post(
-      `${COLAB_API}/generate`,
+      `${COLAB_URL}/generate`,
       { prompt: req.body.prompt },
       { responseType: "arraybuffer" }
     );
@@ -19,12 +19,12 @@ app.post("/generate-image", async (req, res) => {
 
     res.json({
       success: true,
-      image_base64: base64Image
+      image: `data:image/png;base64,${base64Image}`
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: err.message
+      error: error.message
     });
   }
 });
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
   res.send("SD Proxy is running 🚀");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log("Server running on port", PORT);
 });
