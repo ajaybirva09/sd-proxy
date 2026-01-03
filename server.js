@@ -4,7 +4,7 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-// 👇 IMPORTANT: this must match your CURRENT ngrok URL
+
 const COLAB_URL = "https://unconsuming-monte-nippy.ngrok-free.dev";
 
 app.post("/generate-image", async (req, res) => {
